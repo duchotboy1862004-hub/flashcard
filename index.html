@@ -3,266 +3,974 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flashcard Từ Vựng Tiếng Trung</title>
+<title>BÀI 1: 爱的细节 — Flashcard</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-grad-1: #e0e7ff;
+    --bg-grad-2: #fce7f3;
+    --surface: #ffffff;
+    --text: #1e293b;
+    --text-sub: #64748b;
+    --text-muted: #94a3b8;
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --success: #10b981;
+    --danger: #ef4444;
+    --border: #e2e8f0;
+    --shadow-lg: 0 20px 50px rgba(99,102,241,0.18);
+    --card-front: linear-gradient(135deg, #fff7f9 0%, #ffe4e6 100%);
+    --card-back: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    --card-front-text: #831843;
+    --card-back-text: #312e81;
+  }
+
+  body.dark {
+    --bg-grad-1: #1e1b4b;
+    --bg-grad-2: #4c1d95;
+    --surface: #1e293b;
+    --text: #f1f5f9;
+    --text-sub: #cbd5e1;
+    --text-muted: #94a3b8;
+    --border: #334155;
+    --shadow-lg: 0 20px 50px rgba(0,0,0,0.5);
+    --card-front: linear-gradient(135deg, #3b1e3e 0%, #4c1d40 100%);
+    --card-back: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+    --card-front-text: #fbcfe8;
+    --card-back-text: #c7d2fe;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body { min-height: 100%; }
 
   body {
-    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Be Vietnam Pro', 'Microsoft YaHei', sans-serif;
+    background: #f8fafc;
+    background-image:
+      radial-gradient(circle at 15% 0%, var(--bg-grad-1) 0%, transparent 45%),
+      radial-gradient(circle at 85% 100%, var(--bg-grad-2) 0%, transparent 45%);
+    background-attachment: fixed;
     min-height: 100vh;
+    color: var(--text);
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 20px;
+    padding: 24px 16px;
+    transition: background 0.4s, color 0.4s;
   }
 
-  .container {
-    background: white;
-    border-radius: 20px;
-    padding: 40px 30px;
-    max-width: 600px;
+  .app {
     width: 100%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 620px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
 
-  h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 24px;
+  /* ===== HEADER ===== */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 4px;
   }
 
-  .progress {
-    text-align: center;
-    color: #666;
-    margin-bottom: 20px;
-    font-size: 15px;
+  .header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .header h1 .cn {
+    font-size: 20px;
+    color: var(--primary);
+  }
+
+  .icon-btns {
+    display: flex;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: var(--text);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+
+  .icon-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: 0 6px 14px rgba(99,102,241,0.2);
+  }
+
+  .icon-btn:active { transform: translateY(0); }
+  .icon-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* ===== PROGRESS ===== */
+  .progress-section {
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
+    margin-bottom: 10px;
+  }
+
+  .progress-info .count-correct { color: var(--success); }
+  .progress-info .count-wrong { color: var(--danger); margin-left: 12px; }
+
+  .progress-bar {
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  body.dark .progress-bar { background: #334155; }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ===== MODE TABS ===== */
+  .mode-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    padding: 5px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .mode-tab {
+    flex: 1;
+    padding: 9px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .mode-tab:hover { color: var(--primary); }
+
+  .mode-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.35);
+  }
+
+  /* ===== CARD ===== */
+  .card-scene {
+    perspective: 1600px;
+    height: 340px;
+    width: 100%;
   }
 
   .card {
-    width: 100%;
-    height: 280px;
-    perspective: 1000px;
-    margin-bottom: 25px;
-    cursor: pointer;
-  }
-
-  .card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s;
+    cursor: pointer;
     transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .card.flipped .card-inner {
-    transform: rotateY(180deg);
-  }
+  .card.flipped { transform: rotateY(180deg); }
 
-  .card-front, .card-back {
+  .card-face {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    border-radius: 22px;
     backface-visibility: hidden;
-    border-radius: 15px;
+    -webkit-backface-visibility: hidden;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    justify-content: center;
+    padding: 30px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
   }
 
   .card-front {
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    background: var(--card-front);
+    color: var(--card-front-text);
   }
 
   .card-back {
-    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    background: var(--card-back);
+    color: var(--card-back-text);
     transform: rotateY(180deg);
   }
 
-  .hanzi {
-    font-size: 64px;
-    font-weight: bold;
-    color: #2c3e50;
-    margin-bottom: 10px;
+  .card-face::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .card-content {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+
+  .main-text {
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    word-break: break-word;
+    margin-bottom: 16px;
+  }
+
+  .main-text.small { font-size: 40px; }
+  .main-text.medium { font-size: 54px; }
+
+  .card-hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    opacity: 0.8;
+    margin-top: 20px;
   }
 
   .pinyin {
-    font-size: 20px;
-    color: #e74c3c;
-    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--danger);
+    margin-bottom: 8px;
     font-style: italic;
   }
 
+  body.dark .pinyin { color: #fca5a5; }
+
+  .pos-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: rgba(99,102,241,0.15);
+    color: var(--primary);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 14px;
+  }
+
+  body.dark .pos-badge { color: #a5b4fc; background: rgba(165,180,252,0.15); }
+
   .meaning {
-    font-size: 22px;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
   }
 
-  .hint {
-    font-size: 13px;
-    color: #888;
-    position: absolute;
-    bottom: 15px;
+  /* ===== ACTIONS ===== */
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
-  .buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-  }
-
-  button {
-    flex: 1;
-    padding: 14px;
+  .btn {
+    padding: 18px 20px;
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
+    font-family: inherit;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    color: white;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+
+  .btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.18); }
+  .btn:active:not(:disabled) { transform: translateY(0); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .btn-wrong { background: linear-gradient(135deg, #ef4444, #dc2626); }
+  .btn-correct { background: linear-gradient(135deg, #10b981, #059669); }
+
+  .btn kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: monospace;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  .keyboard-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: -6px;
+  }
+
+  .keyboard-hint kbd {
+    display: inline-block;
+    padding: 1px 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-sub);
+    box-shadow: 0 1px 0 var(--border);
+  }
+
+  /* ===== RESULT SCREEN ===== */
+  .result-screen {
+    display: none;
+    background: var(--surface);
+    border-radius: 22px;
+    padding: 40px 28px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .result-screen.show { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .trophy {
+    font-size: 64px;
+    margin-bottom: 12px;
+    display: block;
+    animation: bounce 1s ease infinite alternate;
+  }
+
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-8px); }
+  }
+
+  .result-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .result-subtitle {
+    font-size: 15px;
+    color: var(--text-sub);
+    margin-bottom: 28px;
+  }
+
+  .score-circle {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: conic-gradient(var(--success) var(--score-deg, 0deg), #e2e8f0 0deg);
+    position: relative;
+    transition: --score-deg 1s;
+  }
+
+  body.dark .score-circle { background: conic-gradient(var(--success) var(--score-deg, 0deg), #334155 0deg); }
+
+  .score-circle::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    background: var(--surface);
+    border-radius: 50%;
+  }
+
+  .score-value {
+    position: relative;
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--text);
+    z-index: 1;
+  }
+
+  .score-label {
+    position: relative;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-box {
+    padding: 16px;
+    background: rgba(99,102,241,0.06);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+
+  body.dark .stat-box { background: rgba(99,102,241,0.1); }
+
+  .stat-box .label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  .stat-box .value {
+    font-size: 26px;
+    font-weight: 800;
+  }
+
+  .stat-box.correct .value { color: var(--success); }
+  .stat-box.wrong .value { color: var(--danger); }
+
+  .result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    padding: 16px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(99,102,241,0.35);
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(99,102,241,0.45); }
+
+  .btn-secondary {
+    padding: 14px;
+    background: transparent;
+    color: var(--text-sub);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
   }
 
-  button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-  button:active { transform: translateY(0); }
+  .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
-  .btn-correct { background: #2ecc71; color: white; }
-  .btn-wrong { background: #e74c3c; color: white; }
-
-  .result {
-    text-align: center;
-    padding: 30px;
-    display: none;
+  /* ===== ANIMATIONS ===== */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0) rotateY(180deg); }
+    20%, 60% { transform: translateX(-8px) rotateY(180deg); }
+    40%, 80% { transform: translateX(8px) rotateY(180deg); }
   }
 
-  .result h2 { font-size: 28px; color: #333; margin-bottom: 15px; }
-  .result p { font-size: 18px; color: #666; margin-bottom: 20px; }
-
-  .btn-restart {
-    background: #667eea;
-    color: white;
-    padding: 14px 30px;
-    font-size: 16px;
-    width: auto;
+  @keyframes pulse-correct {
+    0% { transform: rotateY(180deg) scale(1); }
+    50% { transform: rotateY(180deg) scale(1.04); }
+    100% { transform: rotateY(180deg) scale(1); }
   }
 
-  @media (max-width: 480px) {
-    .hanzi { font-size: 48px; }
-    .card { height: 240px; }
+  .card.shake { animation: shake 0.5s; }
+  .card.pulse-correct { animation: pulse-correct 0.4s; }
+
+  @media (max-width: 500px) {
+    .card-scene { height: 300px; }
+    .main-text { font-size: 56px; }
+    .main-text.medium { font-size: 42px; }
+    .main-text.small { font-size: 30px; }
+    .pinyin { font-size: 20px; }
+    .meaning { font-size: 20px; }
+    .header h1 { font-size: 16px; }
+    .header h1 .cn { font-size: 18px; }
+    .btn { padding: 16px 12px; font-size: 14px; }
   }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>📚 Flashcard Từ Vựng Tiếng Trung</h1>
-  <div class="progress" id="progress">Câu 1 / 10</div>
+<div class="app">
 
-  <div id="flashcardArea">
-    <div class="card" id="card" onclick="flipCard()">
-      <div class="card-inner">
-        <div class="card-front">
-          <div class="hanzi" id="hanzi">你好</div>
-          <div class="hint">👆 Nhấn để xem đáp án</div>
+  <!-- HEADER -->
+  <div class="header">
+    <h1>📚 BÀI 1: <span class="cn">爱的细节</span></h1>
+    <div class="icon-btns">
+      <button class="icon-btn" id="shuffleBtn" title="Xáo trộn thẻ">🔀</button>
+      <button class="icon-btn" id="themeBtn" title="Đổi giao diện">🌙</button>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-section">
+    <div class="progress-info">
+      <span id="progressText">Câu 1 / 38</span>
+      <span>
+        <span class="count-correct">✅ <span id="correctCount">0</span></span>
+        <span class="count-wrong">❌ <span id="wrongCount">0</span></span>
+      </span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="hanzi">Hán → Việt</button>
+    <button class="mode-tab" data-mode="viet">Việt → Hán</button>
+    <button class="mode-tab" data-mode="mixed">Trộn</button>
+  </div>
+
+  <!-- FLASHCARD -->
+  <div id="studyArea">
+    <div class="card-scene">
+      <div class="card" id="card">
+        <div class="card-face card-front">
+          <div class="card-content">
+            <div class="main-text" id="frontText">细节</div>
+            <div class="card-hint">👆 Nhấn vào thẻ hoặc <b>Space</b> để xem đáp án</div>
+          </div>
         </div>
-        <div class="card-back">
-          <div class="pinyin" id="pinyin">nǐ hǎo</div>
-          <div class="meaning" id="meaning">Xin chào</div>
+        <div class="card-face card-back">
+          <div class="card-content">
+            <div class="pinyin" id="backPinyin">xìjié</div>
+            <div class="pos-badge" id="backPos">n</div>
+            <div class="meaning" id="backMeaning">chi tiết</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="buttons">
-      <button class="btn-wrong" onclick="answer(false)">❌ Sai</button>
-      <button class="btn-correct" onclick="answer(true)">✅ Đúng</button>
+    <div class="actions" style="margin-top: 18px;">
+      <button class="btn btn-wrong" id="wrongBtn">❌ Chưa nhớ <kbd>1</kbd></button>
+      <button class="btn btn-correct" id="correctBtn">✅ Đã nhớ <kbd>2</kbd></button>
+    </div>
+
+    <div class="keyboard-hint" style="margin-top: 12px;">
+      <kbd>Space</kbd> lật thẻ &nbsp;·&nbsp; <kbd>1</kbd> chưa nhớ &nbsp;·&nbsp; <kbd>2</kbd> đã nhớ
     </div>
   </div>
 
-  <div class="result" id="result">
-    <h2>🎉 Hoàn thành!</h2>
-    <p id="scoreText"></p>
-    <button class="btn-restart" onclick="restart()">🔄 Làm lại</button>
+  <!-- RESULT SCREEN -->
+  <div class="result-screen" id="resultScreen">
+    <span class="trophy" id="trophy">🏆</span>
+    <div class="result-title" id="resultTitle">Hoàn thành!</div>
+    <div class="result-subtitle" id="resultSubtitle">Bạn đã hoàn thành bài học</div>
+
+    <div class="score-circle" id="scoreCircle">
+      <div class="score-value" id="scoreValue">0%</div>
+      <div class="score-label">Đúng</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box correct">
+        <div class="label">✅ Đúng</div>
+        <div class="value" id="finalCorrect">0</div>
+      </div>
+      <div class="stat-box wrong">
+        <div class="label">❌ Sai</div>
+        <div class="value" id="finalWrong">0</div>
+      </div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-primary" id="reviewWrongBtn" style="display:none;">
+        📖 Ôn lại từ sai (<span id="reviewCount">0</span>)
+      </button>
+      <button class="btn-primary" id="restartBtn">🔄 Học lại từ đầu</button>
+      <button class="btn-secondary" id="backBtn">← Quay lại bài học</button>
+    </div>
   </div>
+
 </div>
 
 <script>
-  // ====== DANH SÁCH TỪ VỰNG - BẠN CHỈNH SỬA Ở ĐÂY ======
-  const vocabulary = [
-    { hanzi: "你好",   pinyin: "nǐ hǎo",    meaning: "Xin chào" },
-    { hanzi: "谢谢",   pinyin: "xiè xie",   meaning: "Cảm ơn" },
-    { hanzi: "再见",   pinyin: "zài jiàn",  meaning: "Tạm biệt" },
-    { hanzi: "朋友",   pinyin: "péng you",  meaning: "Bạn bè" },
-    { hanzi: "老师",   pinyin: "lǎo shī",   meaning: "Giáo viên" },
-    { hanzi: "学生",   pinyin: "xué shēng", meaning: "Học sinh" },
-    { hanzi: "中国",   pinyin: "Zhōng guó", meaning: "Trung Quốc" },
-    { hanzi: "越南",   pinyin: "Yuè nán",   meaning: "Việt Nam" },
-    { hanzi: "吃饭",   pinyin: "chī fàn",   meaning: "Ăn cơm" },
-    { hanzi: "喝水",   pinyin: "hē shuǐ",   meaning: "Uống nước" }
+  // ============================================================
+  // DANH SÁCH TỪ VỰNG BÀI 1
+  // ============================================================
+  const VOCABULARY = [
+    { hanzi: "细节",     pinyin: "xìjié",           pos: "n",    meaning: "chi tiết" },
+    { hanzi: "电台",     pinyin: "diàntái",          pos: "n",    meaning: "đài phát thanh" },
+    { hanzi: "恩爱",     pinyin: "ēn’ài",           pos: "a",    meaning: "ân ái, đằm thắm (vợ chồng)" },
+    { hanzi: "对比",     pinyin: "duìbǐ",           pos: "v",    meaning: "so sánh" },
+    { hanzi: "入围",     pinyin: "rùwéi",           pos: "v",    meaning: "vượt qua vòng sơ tuyển" },
+    { hanzi: "评委",     pinyin: "píngwěi",         pos: "n",    meaning: "ban giám khảo" },
+    { hanzi: "如何",     pinyin: "rúhé",            pos: "pro",  meaning: "như thế nào" },
+    { hanzi: "瘫痪",     pinyin: "tānhuàn",         pos: "v",    meaning: "bị liệt" },
+    { hanzi: "离婚",     pinyin: "lí hūn",          pos: "v",    meaning: "ly hôn" },
+    { hanzi: "自杀",     pinyin: "zīshà",           pos: "v",    meaning: "tự tử" },
+    { hanzi: "抱怨",     pinyin: "bàoyuàn",         pos: "v",    meaning: "oán trách, phàn nàn" },
+    { hanzi: "爱护",     pinyin: "àihù",            pos: "v",    meaning: "yêu quý, quý trọng" },
+    { hanzi: "婚姻",     pinyin: "hūnyīn",          pos: "n",    meaning: "hôn nhân" },
+    { hanzi: "吵架",     pinyin: "chǎo jià",        pos: "v",    meaning: "cãi nhau" },
+    { hanzi: "相敬如宾", pinyin: "xiāngjìng-rúbīn", pos: "idom", meaning: "tương kính như tân" },
+    { hanzi: "暗暗",     pinyin: "àn‘àn",           pos: "adv",  meaning: "thầm, ngấm ngầm" },
+    { hanzi: "轮",       pinyin: "lún",             pos: "v",    meaning: "luân phiên, thay phiên" },
+    { hanzi: "不耐烦",   pinyin: "bú nàifán",       pos: "col",  meaning: "sốt ruột, bực mình" },
+    { hanzi: "靠",       pinyin: "kào",             pos: "v",    meaning: "dựa, tựa" },
+    { hanzi: "肩膀",     pinyin: "jiānbǎng",        pos: "n",    meaning: "bờ vai, vai" },
+    { hanzi: "喊",       pinyin: "hǎn",             pos: "v",    meaning: "kêu, gọi" },
+    { hanzi: "伸",       pinyin: "shēn",            pos: "v",    meaning: "chìa, duỗi" },
+    { hanzi: "手指",     pinyin: "shǒuzhǐ",         pos: "n",    meaning: "ngón tay" },
+    { hanzi: "歪歪扭扭", pinyin: "wāiwāiniǔniǔ",    pos: "col",  meaning: "xiêu vẹo, nguệch ngoạc" },
+    { hanzi: "递",       pinyin: "dì",              pos: "v",    meaning: "đưa, chuyền" },
+    { hanzi: "脑袋",     pinyin: "nǎodai",          pos: "n",    meaning: "đầu" },
+    { hanzi: "女士",     pinyin: "nǚshì",           pos: "n",    meaning: "bà (gọi phụ nữ lịch sự)" },
+    { hanzi: "叙述",     pinyin: "xùshù",           pos: "v",    meaning: "thuật lại" },
+    { hanzi: "居然",     pinyin: "jūrán",           pos: "adv",  meaning: "(bất ngờ) lại có thể, lại" },
+    { hanzi: "催",       pinyin: "cuī",             pos: "v",    meaning: "thúc giục, hối thúc" },
+    { hanzi: "等待",     pinyin: "děngdài",         pos: "v",    meaning: "chờ, đợi" },
+    { hanzi: "蚊子",     pinyin: "wénzi",           pos: "n",    meaning: "con muỗi" },
+    { hanzi: "半夜",     pinyin: "bànyè",           pos: "n",    meaning: "nửa đêm, đêm hôm" },
+    { hanzi: "叮",       pinyin: "dīng",            pos: "v",    meaning: "đốt, chích" },
+    { hanzi: "老婆",     pinyin: "lǎopo",           pos: "n",    meaning: "vợ" },
+    { hanzi: "吵",       pinyin: "chǎo",            pos: "v/a",  meaning: "làm ồn; ồn ào" },
+    { hanzi: "项",       pinyin: "xiàng",           pos: "mw",   meaning: "hạng mục, mục" },
+    { hanzi: "患难与共", pinyin: "huànnàn yǔgòng",  pos: "idom", meaning: "hoạn nạn có nhau" }
   ];
-  // =====================================================
 
+  // ============================================================
+  // STATE
+  // ============================================================
+  let deck = [];           // Bộ thẻ hiện tại (đã áp dụng mode + shuffle)
   let currentIndex = 0;
   let correctCount = 0;
+  let wrongCount = 0;
+  let wrongList = [];      // Lưu các từ sai để ôn lại
   let isFlipped = false;
+  let studyMode = 'hanzi'; // 'hanzi' | 'viet' | 'mixed'
+  let isReviewMode = false;
 
-  function loadCard() {
-    const word = vocabulary[currentIndex];
-    document.getElementById("hanzi").textContent = word.hanzi;
-    document.getElementById("pinyin").textContent = word.pinyin;
-    document.getElementById("meaning").textContent = word.meaning;
-    document.getElementById("progress").textContent =
-      `Câu ${currentIndex + 1} / ${vocabulary.length}`;
+  // ============================================================
+  // DOM
+  // ============================================================
+  const $ = id => document.getElementById(id);
+  const card = $('card');
+  const frontText = $('frontText');
+  const backPinyin = $('backPinyin');
+  const backPos = $('backPos');
+  const backMeaning = $('backMeaning');
 
-    document.getElementById("card").classList.remove("flipped");
+  // ============================================================
+  // SOUND (Web Audio API)
+  // ============================================================
+  let audioCtx;
+  function playSound(type) {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'correct') {
+        osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+        osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.08); // G5
+      } else if (type === 'wrong') {
+        osc.frequency.setValueAtTime(311.13, audioCtx.currentTime); // Eb4
+        osc.frequency.setValueAtTime(233.08, audioCtx.currentTime + 0.1); // Bb3
+      } else if (type === 'flip') {
+        osc.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+      }
+
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.25);
+    } catch(e) {}
+  }
+
+  // ============================================================
+  // BUILD DECK
+  // ============================================================
+  function buildDeck(list, mode) {
+    const source = list || VOCABULARY;
+    return source.map(item => {
+      let direction = mode;
+      if (mode === 'mixed') {
+        direction = Math.random() < 0.5 ? 'hanzi' : 'viet';
+      }
+      return { ...item, direction };
+    });
+  }
+
+  // ============================================================
+  // RENDER CARD
+  // ============================================================
+  function renderCard() {
+    if (currentIndex >= deck.length) return showResult();
+    const item = deck[currentIndex];
+
+    card.classList.remove('flipped');
     isFlipped = false;
-  }
 
-  function flipCard() {
-    document.getElementById("card").classList.toggle("flipped");
-    isFlipped = !isFlipped;
-  }
-
-  function answer(isCorrect) {
-    if (isCorrect) correctCount++;
-    currentIndex++;
-
-    if (currentIndex < vocabulary.length) {
-      loadCard();
+    // Chọn mặt trước theo direction
+    if (item.direction === 'hanzi') {
+      frontText.textContent = item.hanzi;
+      frontText.className = 'main-text' + (item.hanzi.length > 4 ? ' small' : item.hanzi.length > 2 ? ' medium' : '');
     } else {
-      showResult();
+      frontText.textContent = item.meaning;
+      frontText.className = 'main-text' + (item.meaning.length > 25 ? ' small' : item.meaning.length > 12 ? ' medium' : '');
+    }
+
+    // Mặt sau luôn hiện đầy đủ
+    backPinyin.textContent = item.pinyin;
+    backPos.textContent = item.pos;
+    backMeaning.textContent = item.meaning;
+
+    // Progress
+    $('progressText').textContent = `Câu ${currentIndex + 1} / ${deck.length}`;
+    $('progressFill').style.width = `${(currentIndex / deck.length) * 100}%`;
+    $('correctCount').textContent = correctCount;
+    $('wrongCount').textContent = wrongCount;
+  }
+
+  // ============================================================
+  // FLIP
+  // ============================================================
+  function flipCard() {
+    if (isFlipped) return;
+    card.classList.add('flipped');
+    isFlipped = true;
+    playSound('flip');
+  }
+
+  // ============================================================
+  // ANSWER
+  // ============================================================
+  function answer(isCorrect) {
+    if (!isFlipped) {
+      // Tự động lật nếu chưa lật
+      flipCard();
+      return;
+    }
+
+    const item = deck[currentIndex];
+
+    if (isCorrect) {
+      correctCount++;
+      playSound('correct');
+      card.classList.add('pulse-correct');
+      setTimeout(() => card.classList.remove('pulse-correct'), 400);
+    } else {
+      wrongCount++;
+      wrongList.push(item);
+      playSound('wrong');
+      card.classList.add('shake');
+      setTimeout(() => card.classList.remove('shake'), 500);
+    }
+
+    $('correctCount').textContent = correctCount;
+    $('wrongCount').textContent = wrongCount;
+
+    setTimeout(() => {
+      currentIndex++;
+      if (currentIndex >= deck.length) {
+        $('progressFill').style.width = '100%';
+        showResult();
+      } else {
+        renderCard();
+      }
+    }, 350);
+  }
+
+  // ============================================================
+  // RESULT
+  // ============================================================
+  function showResult() {
+    $('studyArea').style.display = 'none';
+    $('resultScreen').classList.add('show');
+
+    const total = deck.length;
+    const percent = Math.round((correctCount / total) * 100);
+
+    $('finalCorrect').textContent = correctCount;
+    $('finalWrong').textContent = wrongCount;
+    $('scoreValue').textContent = percent + '%';
+
+    // Vẽ vòng tròn
+    requestAnimationFrame(() => {
+      $('scoreCircle').style.setProperty('--score-deg', `${percent * 3.6}deg`);
+    });
+
+    // Chọn trophy + title
+    let trophy, title, subtitle;
+    if (percent === 100) {
+      trophy = '🏆'; title = 'Xuất sắc!'; subtitle = 'Bạn nhớ hết tất cả từ vựng!';
+    } else if (percent >= 80) {
+      trophy = '🎉'; title = 'Rất tốt!'; subtitle = 'Chỉ cần ôn thêm vài từ nữa thôi.';
+    } else if (percent >= 60) {
+      trophy = '👍'; title = 'Khá ổn!'; subtitle = 'Hãy ôn lại những từ chưa nhớ nhé.';
+    } else {
+      trophy = '💪'; title = 'Cần cố gắng thêm!'; subtitle = 'Đừng lo, ôn lại sẽ nhớ thôi.';
+    }
+
+    $('trophy').textContent = trophy;
+    $('resultTitle').textContent = title;
+    $('resultSubtitle').textContent = subtitle;
+
+    // Nút ôn lại từ sai
+    if (wrongList.length > 0) {
+      $('reviewWrongBtn').style.display = 'block';
+      $('reviewCount').textContent = wrongList.length;
+    } else {
+      $('reviewWrongBtn').style.display = 'none';
     }
   }
 
-  function showResult() {
-    document.getElementById("flashcardArea").style.display = "none";
-    document.getElementById("progress").style.display = "none";
-    const result = document.getElementById("result");
-    result.style.display = "block";
-
-    const percent = Math.round((correctCount / vocabulary.length) * 100);
-    let message = "";
-    if (percent === 100) message = "🏆 Xuất sắc! Bạn nhớ hết rồi!";
-    else if (percent >= 70) message = "👍 Khá tốt! Cố gắng thêm nhé!";
-    else message = "💪 Cần ôn lại thêm nha!";
-
-    document.getElementById("scoreText").innerHTML =
-      `Bạn trả lời đúng <b>${correctCount}/${vocabulary.length}</b> câu (${percent}%)<br>${message}`;
-  }
-
-  function restart() {
+  // ============================================================
+  // RESTART
+  // ============================================================
+  function restart(customList) {
+    const list = customList || VOCABULARY;
+    deck = buildDeck(list, studyMode);
     currentIndex = 0;
     correctCount = 0;
-    document.getElementById("flashcardArea").style.display = "block";
-    document.getElementById("progress").style.display = "block";
-    document.getElementById("result").style.display = "none";
-    loadCard();
+    wrongCount = 0;
+    wrongList = [];
+    isReviewMode = !!customList;
+
+    $('studyArea').style.display = 'block';
+    $('resultScreen').classList.remove('show');
+    $('scoreCircle').style.setProperty('--score-deg', '0deg');
+    renderCard();
   }
 
-  loadCard();
+  // ============================================================
+  // EVENTS
+  // ============================================================
+  card.addEventListener('click', flipCard);
+  $('correctBtn').addEventListener('click', () => answer(true));
+  $('wrongBtn').addEventListener('click', () => answer(false));
+
+  $('restartBtn').addEventListener('click', () => restart());
+  $('backBtn').addEventListener('click', () => restart());
+  $('reviewWrongBtn').addEventListener('click', () => restart(wrongList));
+
+  // Mode tabs
+  document.querySelectorAll('.mode-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      studyMode = tab.dataset.mode;
+      restart();
+    });
+  });
+
+  // Shuffle
+  $('shuffleBtn').addEventListener('click', () => {
+    deck = buildDeck(deck.map(d => ({ ...d })), 'mixed');
+    // Shuffle array
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    currentIndex = 0;
+    correctCount = 0;
+    wrongCount = 0;
+    wrongList = [];
+    renderCard();
+
+    // Visual feedback
+    const btn = $('shuffleBtn');
+    btn.style.transform = 'rotate(360deg)';
+    setTimeout(() => btn.style.transform = '', 400);
+  });
+
+  // Dark mode
+  const themeBtn = $('themeBtn');
+  function setTheme(isDark) {
+    document.body.classList.toggle('dark', isDark);
+    themeBtn.textContent = isDark ? '☀️' : '🌙';
+    try { localStorage.setItem('flashcard-theme', isDark ? 'dark' : 'light'); } catch(e) {}
+  }
+  themeBtn.addEventListener('click', () => setTheme(!document.body.classList.contains('dark')));
+  // Load saved theme
+  try {
+    const saved = localStorage.getItem('flashcard-theme');
+    if (saved === 'dark') setTheme(true);
+  } catch(e) {}
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    if (e.code === 'Space') {
+      e.preventDefault();
+      flipCard();
+    } else if (e.key === '1' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      answer(false);
+    } else if (e.key === '2' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      answer(true);
+    } else if (e.key === 'r' || e.key === 'R') {
+      restart();
+    }
+  });
+
+  // ============================================================
+  // START
+  // ============================================================
+  restart();
 </script>
 </body>
 </html>
