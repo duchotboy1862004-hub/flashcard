@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcard Từ Vựng Tiếng Trung</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .progress {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  .card {
+    width: 100%;
+    height: 280px;
+    perspective: 1000px;
+    margin-bottom: 25px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .card-front {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  }
+
+  .card-back {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    transform: rotateY(180deg);
+  }
+
+  .hanzi {
+    font-size: 64px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+
+  .pinyin {
+    font-size: 20px;
+    color: #e74c3c;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .meaning {
+    font-size: 22px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: #888;
+    position: absolute;
+    bottom: 15px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  button {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+  button:active { transform: translateY(0); }
+
+  .btn-correct { background: #2ecc71; color: white; }
+  .btn-wrong { background: #e74c3c; color: white; }
+
+  .result {
+    text-align: center;
+    padding: 30px;
+    display: none;
+  }
+
+  .result h2 { font-size: 28px; color: #333; margin-bottom: 15px; }
+  .result p { font-size: 18px; color: #666; margin-bottom: 20px; }
+
+  .btn-restart {
+    background: #667eea;
+    color: white;
+    padding: 14px 30px;
+    font-size: 16px;
+    width: auto;
+  }
+
+  @media (max-width: 480px) {
+    .hanzi { font-size: 48px; }
+    .card { height: 240px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📚 Flashcard Từ Vựng Tiếng Trung</h1>
+  <div class="progress" id="progress">Câu 1 / 10</div>
+
+  <div id="flashcardArea">
+    <div class="card" id="card" onclick="flipCard()">
+      <div class="card-inner">
+        <div class="card-front">
+          <div class="hanzi" id="hanzi">你好</div>
+          <div class="hint">👆 Nhấn để xem đáp án</div>
+        </div>
+        <div class="card-back">
+          <div class="pinyin" id="pinyin">nǐ hǎo</div>
+          <div class="meaning" id="meaning">Xin chào</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="btn-wrong" onclick="answer(false)">❌ Sai</button>
+      <button class="btn-correct" onclick="answer(true)">✅ Đúng</button>
+    </div>
+  </div>
+
+  <div class="result" id="result">
+    <h2>🎉 Hoàn thành!</h2>
+    <p id="scoreText"></p>
+    <button class="btn-restart" onclick="restart()">🔄 Làm lại</button>
+  </div>
+</div>
+
+<script>
+  // ====== DANH SÁCH TỪ VỰNG - BẠN CHỈNH SỬA Ở ĐÂY ======
+  const vocabulary = [
+    { hanzi: "你好",   pinyin: "nǐ hǎo",    meaning: "Xin chào" },
+    { hanzi: "谢谢",   pinyin: "xiè xie",   meaning: "Cảm ơn" },
+    { hanzi: "再见",   pinyin: "zài jiàn",  meaning: "Tạm biệt" },
+    { hanzi: "朋友",   pinyin: "péng you",  meaning: "Bạn bè" },
+    { hanzi: "老师",   pinyin: "lǎo shī",   meaning: "Giáo viên" },
+    { hanzi: "学生",   pinyin: "xué shēng", meaning: "Học sinh" },
+    { hanzi: "中国",   pinyin: "Zhōng guó", meaning: "Trung Quốc" },
+    { hanzi: "越南",   pinyin: "Yuè nán",   meaning: "Việt Nam" },
+    { hanzi: "吃饭",   pinyin: "chī fàn",   meaning: "Ăn cơm" },
+    { hanzi: "喝水",   pinyin: "hē shuǐ",   meaning: "Uống nước" }
+  ];
+  // =====================================================
+
+  let currentIndex = 0;
+  let correctCount = 0;
+  let isFlipped = false;
+
+  function loadCard() {
+    const word = vocabulary[currentIndex];
+    document.getElementById("hanzi").textContent = word.hanzi;
+    document.getElementById("pinyin").textContent = word.pinyin;
+    document.getElementById("meaning").textContent = word.meaning;
+    document.getElementById("progress").textContent =
+      `Câu ${currentIndex + 1} / ${vocabulary.length}`;
+
+    document.getElementById("card").classList.remove("flipped");
+    isFlipped = false;
+  }
+
+  function flipCard() {
+    document.getElementById("card").classList.toggle("flipped");
+    isFlipped = !isFlipped;
+  }
+
+  function answer(isCorrect) {
+    if (isCorrect) correctCount++;
+    currentIndex++;
+
+    if (currentIndex < vocabulary.length) {
+      loadCard();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById("flashcardArea").style.display = "none";
+    document.getElementById("progress").style.display = "none";
+    const result = document.getElementById("result");
+    result.style.display = "block";
+
+    const percent = Math.round((correctCount / vocabulary.length) * 100);
+    let message = "";
+    if (percent === 100) message = "🏆 Xuất sắc! Bạn nhớ hết rồi!";
+    else if (percent >= 70) message = "👍 Khá tốt! Cố gắng thêm nhé!";
+    else message = "💪 Cần ôn lại thêm nha!";
+
+    document.getElementById("scoreText").innerHTML =
+      `Bạn trả lời đúng <b>${correctCount}/${vocabulary.length}</b> câu (${percent}%)<br>${message}`;
+  }
+
+  function restart() {
+    currentIndex = 0;
+    correctCount = 0;
+    document.getElementById("flashcardArea").style.display = "block";
+    document.getElementById("progress").style.display = "block";
+    document.getElementById("result").style.display = "none";
+    loadCard();
+  }
+
+  loadCard();
+</script>
+</body>
+</html>
